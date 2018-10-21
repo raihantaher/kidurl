@@ -29,7 +29,21 @@ namespace KidUrl.Manager
             }
             else
             {
-                var shortCode = url.Substring(10);
+                var shortCode = "";
+
+                if (url.Substring(0, 10) == "kidurl.my/")
+                {
+                    shortCode = url.Substring(10);
+                }
+                else if (url.Substring(0, 17) == "http://kidurl.my/")
+                {
+                    shortCode = url.Substring(17);
+                }
+                else if (url.Substring(0, 18) == "https://kidurl.my/")
+                {
+                    shortCode = url.Substring(18);
+                }
+
                 if (IsShortUrlValid(shortCode))
                 {
                     return _kidUrlDataAccess.GetLongUrl(shortCode);
@@ -43,7 +57,10 @@ namespace KidUrl.Manager
         {
             if (url.Contains("kidurl.my/"))
             {
-                return false; // Need to improve it
+                if(url.Substring(0,10) == "kidurl.my/" || url.Substring(0, 17) == "http://kidurl.my/" || url.Substring(0, 18) == "https://kidurl.my/")
+                {
+                    return false; // Need to improve it
+                }
             }
             return true;
         }

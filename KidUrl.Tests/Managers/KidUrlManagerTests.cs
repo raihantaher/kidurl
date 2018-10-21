@@ -178,5 +178,50 @@ namespace KidUrl.Tests.Managers
             Assert.AreEqual(longUrl, result);
 
         }
+
+        [TestMethod]
+        public void ConvertUrl_ValidShortUrlWithHttp_ReturnURL()
+        {
+            // Arrange
+            var validUrl = @"http://kidurl.my/d9070a6d-ee73-4f39-be10-64c3711af4ce";
+            _mock.Setup(x => x.GetLongUrl(It.IsAny<string>())).Returns(longUrl);
+
+            // Act
+            var result = _target.ConvertUrl(validUrl);
+
+            // Assert
+            Assert.AreEqual(longUrl, result);
+
+        }
+
+        [TestMethod]
+        public void ConvertUrl_ValidShortUrlWithHttps_ReturnURL()
+        {
+            // Arrange
+            var validUrl = @"https://kidurl.my/d9070a6d-ee73-4f39-be10-64c3711af4ce";
+            _mock.Setup(x => x.GetLongUrl(It.IsAny<string>())).Returns(longUrl);
+
+            // Act
+            var result = _target.ConvertUrl(validUrl);
+
+            // Assert
+            Assert.AreEqual(longUrl, result);
+
+        }
+
+        [TestMethod]
+        public void ConvertUrl_LongUrlWithKidUrl_ReturnURL()
+        {
+            // Arrange
+            var validUrl = @"https://www.google.my/kidurl/kidurlmy";
+            _mock.Setup(x => x.GetShortUrl(It.IsAny<string>())).Returns(shortUrlCode);
+
+            // Act
+            var result = _target.ConvertUrl(validUrl);
+
+            // Assert
+            Assert.AreEqual(shortUrl, result);
+
+        }
     }
 }
