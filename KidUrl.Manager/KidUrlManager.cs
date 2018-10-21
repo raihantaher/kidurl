@@ -18,16 +18,21 @@ namespace KidUrl.Manager
 
         public string ConvertUrl(string url)
         {
-            if (IsUrlValid(url))
+            
+            if (IsUrlLongUrl(url))
             {
-                if (IsUrlLongUrl(url))
+                if (IsUrlValid(url))
                 {
                     var shortUrlCode = _kidUrlDataAccess.GetShortUrl(url);
                     return @"kidurl.my/" + shortUrlCode;
                 }
-                else
+            }
+            else
+            {
+                var shortCode = url.Substring(10);
+                if (IsShortUrlValid(shortCode))
                 {
-                    return _kidUrlDataAccess.GetLongUrl(url);
+                    return _kidUrlDataAccess.GetLongUrl(shortCode);
                 }
             }
 
@@ -47,6 +52,14 @@ namespace KidUrl.Manager
         {
             //return Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute);
             var pattern = @"^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$";
+            Regex reg = new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            var result = reg.IsMatch(url);
+            return result;
+        }
+
+        private bool IsShortUrlValid(string url)
+        {
+            var pattern = @"^[{(]?[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}[)}]?$";
             Regex reg = new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
             var result = reg.IsMatch(url);
             return result;

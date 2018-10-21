@@ -148,5 +148,35 @@ namespace KidUrl.Tests.Managers
             Assert.AreEqual(invalidMessage, result);
 
         }
+
+        [TestMethod]
+        public void ConvertUrl_InvalidShortUrl_ReturnMessage()
+        {
+            // Arrange
+            var invalidUrl = @"kidurl.my/raihan";
+            _mock.Setup(x => x.GetLongUrl(It.IsAny<string>())).Returns(longUrl);
+
+            // Act
+            var result = _target.ConvertUrl(invalidUrl);
+
+            // Assert
+            Assert.AreEqual(invalidMessage, result);
+
+        }
+
+        [TestMethod]
+        public void ConvertUrl_ValidShortUrl_ReturnURL()
+        {
+            // Arrange
+            var invalidUrl = @"kidurl.my/d9070a6d-ee73-4f39-be10-64c3711af4ce";
+            _mock.Setup(x => x.GetLongUrl(It.IsAny<string>())).Returns(longUrl);
+
+            // Act
+            var result = _target.ConvertUrl(invalidUrl);
+
+            // Assert
+            Assert.AreEqual(longUrl, result);
+
+        }
     }
 }

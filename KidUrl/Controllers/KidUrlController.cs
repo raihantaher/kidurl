@@ -27,9 +27,19 @@ namespace KidUrl.Controllers
         {
             string result = _kidUrlManager.ConvertUrl(url);
 
+            if(result == "Invalid URL provided!")
+            {
+                return BadRequest();
+            }
+
             if(result == String.Empty)
             {
                 return NotFound();
+            }
+
+            if (result == null)
+            {
+                return NoContent();
             }
 
             return Ok(result);

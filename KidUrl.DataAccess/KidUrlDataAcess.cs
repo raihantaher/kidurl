@@ -27,6 +27,10 @@ namespace KidUrl.DataAccess
                 var cmd = new SqlCommand(st, conn);
                 result = (string)cmd.ExecuteScalar();
             }
+            catch(Exception ex)
+            {
+                throw new Exception("Exception while retrieving long url! Message: " + ex.Message);
+            }
             finally
             {
                 conn.Close();
@@ -45,6 +49,10 @@ namespace KidUrl.DataAccess
                 var cmd = new SqlCommand(st, conn);
                 result = (string)cmd.ExecuteScalar();
             }
+            catch (Exception ex)
+            {
+                throw new Exception("Exception while retrieving short url! Message: " + ex.Message);
+            }
             finally
             {
                 conn.Close();
@@ -54,7 +62,7 @@ namespace KidUrl.DataAccess
                 var shortGuid = Guid.NewGuid();
                 if(SaveLongUrl(longUrl, shortGuid))
                 {
-                    result = @"kidurl.my/" + shortGuid;
+                    result = shortGuid.ToString();
                 }
             }
 
@@ -73,6 +81,10 @@ namespace KidUrl.DataAccess
                 cmd.Parameters.AddWithValue("@param3", DateTime.Now);
                 cmd.CommandType = CommandType.Text;
                 result = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Exception while saving long url! Message: " + ex.Message);
             }
             finally
             {
