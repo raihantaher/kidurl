@@ -3,6 +3,7 @@ using KidUrl.Manager.Interface;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace KidUrl.Manager
 {
@@ -44,7 +45,11 @@ namespace KidUrl.Manager
 
         private bool IsUrlValid(string url)
         {
-            return Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute);
+            //return Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute);
+            var pattern = @"^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$";
+            Regex reg = new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            var result = reg.IsMatch(url);
+            return result;
         }
     }
 }

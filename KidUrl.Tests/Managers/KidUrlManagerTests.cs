@@ -13,10 +13,18 @@ namespace KidUrl.Tests.Managers
     {
         private Mock<IKidUrlDataAccess> _mock;
         private KidUrlManager _target;
+        private string longUrl;
+        private string shortUrl;
+        private string shortUrlCode;
+        private string invalidMessage;
 
         [TestInitialize]
         public void Init()
         {
+            longUrl = "www.raihantaher.com";
+            shortUrl = "kidurl.my/123";
+            shortUrlCode = "123";
+            invalidMessage = "Invalid URL provided!";
             _mock = new Mock<IKidUrlDataAccess>();
             _target = new KidUrlManager(_mock.Object);
         }
@@ -25,15 +33,119 @@ namespace KidUrl.Tests.Managers
         public void ConvertUrl_LongUrlProvided_ShortUrlReturned()
         {
             // Arrange
-            var longUrl = "www.raihantaher.com";
-            var shortUrl = "kidurl.my/123";
-            _mock.Setup(x => x.GetShortUrl(It.IsAny<string>())).Returns("123");
+            _mock.Setup(x => x.GetShortUrl(It.IsAny<string>())).Returns(shortUrlCode);
 
             // Act
             var result = _target.ConvertUrl(longUrl);
 
             // Assert
             Assert.AreEqual(shortUrl, result);
+
+        }
+
+        [TestMethod]
+        public void ConvertUrl_InvalidUrl_ReturnMessage()
+        {
+            // Arrange
+            var invalidUrl = "raihantaher/blog/123";
+            var invalidMessage = "Invalid URL provided!";
+            _mock.Setup(x => x.GetShortUrl(It.IsAny<string>())).Returns(shortUrlCode);
+
+            // Act
+            var result = _target.ConvertUrl(invalidUrl);
+
+            // Assert
+            Assert.AreEqual(invalidMessage, result);
+
+        }
+
+        [TestMethod]
+        public void ConvertUrl_InvalidUrlNumber2_ReturnMessage()
+        {
+            // Arrange
+            var invalidUrl = "select * from something";
+            _mock.Setup(x => x.GetShortUrl(It.IsAny<string>())).Returns(shortUrlCode);
+
+            // Act
+            var result = _target.ConvertUrl(invalidUrl);
+
+            // Assert
+            Assert.AreEqual(invalidMessage, result);
+
+        }
+
+        [TestMethod]
+        public void ConvertUrl_ValidUrlWithHttp_ReturnMessage()
+        {
+            // Arrange
+            var invalidUrl = @"http://www.raihantaher.com";
+            _mock.Setup(x => x.GetShortUrl(It.IsAny<string>())).Returns(shortUrlCode);
+
+            // Act
+            var result = _target.ConvertUrl(invalidUrl);
+
+            // Assert
+            Assert.AreEqual(shortUrl, result);
+
+        }
+
+        [TestMethod]
+        public void ConvertUrl_ValidUrlWithHttps_ReturnMessage()
+        {
+            // Arrange
+            var invalidUrl = @"https://www.raihantaher.com";
+            _mock.Setup(x => x.GetShortUrl(It.IsAny<string>())).Returns(shortUrlCode);
+
+            // Act
+            var result = _target.ConvertUrl(invalidUrl);
+
+            // Assert
+            Assert.AreEqual(shortUrl, result);
+
+        }
+
+        [TestMethod]
+        public void ConvertUrl_ValidUrlWithoutHttpOrHttps_ReturnMessage()
+        {
+            // Arrange
+            var invalidUrl = @"www.raihantaher.com";
+            _mock.Setup(x => x.GetShortUrl(It.IsAny<string>())).Returns(shortUrlCode);
+
+            // Act
+            var result = _target.ConvertUrl(invalidUrl);
+
+            // Assert
+            Assert.AreEqual(shortUrl, result);
+
+        }
+
+        [TestMethod]
+        public void ConvertUrl_ValidUrlWithoutWWW_ReturnMessage()
+        {
+            // Arrange
+            var invalidUrl = @"raihantaher.com";
+            _mock.Setup(x => x.GetShortUrl(It.IsAny<string>())).Returns(shortUrlCode);
+
+            // Act
+            var result = _target.ConvertUrl(invalidUrl);
+
+            // Assert
+            Assert.AreEqual(shortUrl, result);
+
+        }
+
+        [TestMethod]
+        public void ConvertUrl_InValidUrlWithoutHttpp_ReturnMessage()
+        {
+            // Arrange
+            var invalidUrl = @"httpp://www.raihantaher.com";
+            _mock.Setup(x => x.GetShortUrl(It.IsAny<string>())).Returns(shortUrlCode);
+
+            // Act
+            var result = _target.ConvertUrl(invalidUrl);
+
+            // Assert
+            Assert.AreEqual(invalidMessage, result);
 
         }
     }
