@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\KidUrl.DataAccess\KidUrl.DataAccess.csproj" />
     <ProjectReference Include="..\KidUrl.Manager\KidUrl.Manager.csproj" />
     <ProjectReference Include="..\KidUrl\KidUrl.csproj" />
   </ItemGroup>

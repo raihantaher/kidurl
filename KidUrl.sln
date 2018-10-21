@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KidUrl.Manager", "KidUrl.Ma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KidUrl.DataAccess", "KidUrl.DataAccess\KidUrl.DataAccess.csproj", "{12643E61-7790-4F47-9B7A-58EB7E3AB696}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "KidUrl.Database", "KidUrl.Database\KidUrl.Database.sqlproj", "{D2A199F0-D262-41D7-8798-2233273C1F0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,12 @@ Global
 		{12643E61-7790-4F47-9B7A-58EB7E3AB696}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12643E61-7790-4F47-9B7A-58EB7E3AB696}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12643E61-7790-4F47-9B7A-58EB7E3AB696}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2A199F0-D262-41D7-8798-2233273C1F0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2A199F0-D262-41D7-8798-2233273C1F0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2A199F0-D262-41D7-8798-2233273C1F0F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D2A199F0-D262-41D7-8798-2233273C1F0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2A199F0-D262-41D7-8798-2233273C1F0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2A199F0-D262-41D7-8798-2233273C1F0F}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
