@@ -44,7 +44,7 @@ namespace KidUrl.Tests.Managers
         }
 
         [TestMethod]
-        public void ConvertUrl_InvalidUrl_ReturnMessage()
+        public void ConvertUrl_InvalidUrl_ReturnMessageThatUrlIsInvalid()
         {
             // Arrange
             var invalidUrl = "raihantaher/blog/123";
@@ -60,7 +60,7 @@ namespace KidUrl.Tests.Managers
         }
 
         [TestMethod]
-        public void ConvertUrl_InvalidUrlNumber2_ReturnMessage()
+        public void ConvertUrl_InvalidUrlNumber2_ReturnMessageThatUrlIsInvalid()
         {
             // Arrange
             var invalidUrl = "select * from something";
@@ -75,14 +75,14 @@ namespace KidUrl.Tests.Managers
         }
 
         [TestMethod]
-        public void ConvertUrl_ValidUrlWithHttp_ReturnMessage()
+        public void ConvertUrl_ValidLongUrlWithHttp_ReturnShortUrl()
         {
             // Arrange
-            var invalidUrl = @"http://www.raihantaher.com";
+            var validLongUrl = @"http://www.raihantaher.com";
             _mock.Setup(x => x.GetShortUrl(It.IsAny<string>())).Returns(shortUrlCode);
 
             // Act
-            var result = _target.ConvertUrl(invalidUrl);
+            var result = _target.ConvertUrl(validLongUrl);
 
             // Assert
             Assert.AreEqual(shortUrl, result);
@@ -90,14 +90,14 @@ namespace KidUrl.Tests.Managers
         }
 
         [TestMethod]
-        public void ConvertUrl_ValidUrlWithHttps_ReturnMessage()
+        public void ConvertUrl_ValidLongUrlWithHttps_ReturnShortUrl()
         {
             // Arrange
-            var invalidUrl = @"https://www.raihantaher.com";
+            var validLongUrl = @"https://www.raihantaher.com";
             _mock.Setup(x => x.GetShortUrl(It.IsAny<string>())).Returns(shortUrlCode);
 
             // Act
-            var result = _target.ConvertUrl(invalidUrl);
+            var result = _target.ConvertUrl(validLongUrl);
 
             // Assert
             Assert.AreEqual(shortUrl, result);
@@ -105,14 +105,14 @@ namespace KidUrl.Tests.Managers
         }
 
         [TestMethod]
-        public void ConvertUrl_ValidUrlWithoutHttpOrHttps_ReturnMessage()
+        public void ConvertUrl_ValidLongUrlWithoutHttpOrHttps_ReturnShortUrl()
         {
             // Arrange
-            var invalidUrl = @"www.raihantaher.com";
+            var validLongUrl = @"www.raihantaher.com";
             _mock.Setup(x => x.GetShortUrl(It.IsAny<string>())).Returns(shortUrlCode);
 
             // Act
-            var result = _target.ConvertUrl(invalidUrl);
+            var result = _target.ConvertUrl(validLongUrl);
 
             // Assert
             Assert.AreEqual(shortUrl, result);
@@ -120,7 +120,7 @@ namespace KidUrl.Tests.Managers
         }
 
         [TestMethod]
-        public void ConvertUrl_ValidUrlWithoutWWW_ReturnMessage()
+        public void ConvertUrl_ValidLongUrlWithoutWWW_ReturnShortUrl()
         {
             // Arrange
             var invalidUrl = @"raihantaher.com";
@@ -131,11 +131,10 @@ namespace KidUrl.Tests.Managers
 
             // Assert
             Assert.AreEqual(shortUrl, result);
-
         }
 
         [TestMethod]
-        public void ConvertUrl_InValidUrlWithoutHttpp_ReturnMessage()
+        public void ConvertUrl_InValidLongUrlWithoutHttpp_ReturnMessageThatUrlIsInvalid()
         {
             // Arrange
             var invalidUrl = @"httpp://www.raihantaher.com";
@@ -150,7 +149,7 @@ namespace KidUrl.Tests.Managers
         }
 
         [TestMethod]
-        public void ConvertUrl_InvalidShortUrl_ReturnMessage()
+        public void ConvertUrl_InvalidShortUrl_ReturnMessageThatUrlIsInvalid()
         {
             // Arrange
             var invalidUrl = @"kidurl.my/raihan";
@@ -168,11 +167,11 @@ namespace KidUrl.Tests.Managers
         public void ConvertUrl_ValidShortUrl_ReturnURL()
         {
             // Arrange
-            var invalidUrl = @"kidurl.my/d9070a6d-ee73-4f39-be10-64c3711af4ce";
+            var validShortUrl = @"kidurl.my/d9070a6d-ee73-4f39-be10-64c3711af4ce";
             _mock.Setup(x => x.GetLongUrl(It.IsAny<string>())).Returns(longUrl);
 
             // Act
-            var result = _target.ConvertUrl(invalidUrl);
+            var result = _target.ConvertUrl(validShortUrl);
 
             // Assert
             Assert.AreEqual(longUrl, result);
@@ -180,7 +179,7 @@ namespace KidUrl.Tests.Managers
         }
 
         [TestMethod]
-        public void ConvertUrl_ValidShortUrlWithHttp_ReturnURL()
+        public void ConvertUrl_ValidShortUrlWithHttp_ReturnLongURL()
         {
             // Arrange
             var validUrl = @"http://kidurl.my/d9070a6d-ee73-4f39-be10-64c3711af4ce";
@@ -195,7 +194,7 @@ namespace KidUrl.Tests.Managers
         }
 
         [TestMethod]
-        public void ConvertUrl_ValidShortUrlWithHttps_ReturnURL()
+        public void ConvertUrl_ValidShortUrlWithHttps_ReturnLongURL()
         {
             // Arrange
             var validUrl = @"https://kidurl.my/d9070a6d-ee73-4f39-be10-64c3711af4ce";
@@ -210,7 +209,7 @@ namespace KidUrl.Tests.Managers
         }
 
         [TestMethod]
-        public void ConvertUrl_LongUrlWithKidUrl_ReturnURL()
+        public void ConvertUrl_ValidLongUrlWithKidUrl_ReturnShortURL()
         {
             // Arrange
             var validUrl = @"https://www.google.my/kidurl/kidurlmy";
@@ -221,7 +220,34 @@ namespace KidUrl.Tests.Managers
 
             // Assert
             Assert.AreEqual(shortUrl, result);
+        }
 
+        [TestMethod]
+        public void ConvertUrl_InvalidLongUrlWithKidUrl_ReturnMessageThatUrlIsInvalid()
+        {
+            // Arrange
+            var invalidUrl = @"www.google.my/kidurl.my/";
+            _mock.Setup(x => x.GetShortUrl(It.IsAny<string>())).Returns(shortUrlCode);
+
+            // Act
+            var result = _target.ConvertUrl(invalidUrl);
+
+            // Assert
+            Assert.AreEqual(invalidMessage, result);
+        }
+
+        [TestMethod]
+        public void ConvertUrl_InvalidLongUrlWithKidUrlDash_ReturnMessageThatUrlIsInvalid()
+        {
+            // Arrange
+            var invalidUrl = @"www.google-kidurl.my/";
+            _mock.Setup(x => x.GetShortUrl(It.IsAny<string>())).Returns(shortUrlCode);
+
+            // Act
+            var result = _target.ConvertUrl(invalidUrl);
+
+            // Assert
+            Assert.AreEqual(invalidMessage, result);
         }
     }
 }
