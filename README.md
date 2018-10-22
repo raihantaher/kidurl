@@ -1,6 +1,12 @@
 # kidurl
 URL Shortening Service
 
+## Try out the service
+https://kidurlapp.azurewebsites.net/api/kidurl
+
+## Swagger UI:
+https://kidurlapp.azurewebsites.net/swagger/index.html
+
 ## How to use?
 - Give a valid URL and the service will return you a short url.
 - Give a kidurl and the service will return you the long URL that was shorten by the service.
