@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using KidUrl.DataAccess;
+﻿using KidUrl.DataAccess;
 using KidUrl.DataAccess.Interface;
 using KidUrl.Manager;
 using KidUrl.Manager.Interface;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace KidUrl
 {
@@ -31,7 +24,7 @@ namespace KidUrl
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddScoped<IKidUrlManager, KidUrlManager>();
-            services.AddScoped<IKidUrlDataAccess, KidUrlDataAcess>();
+            services.AddScoped<IKidUrlDataAccess, KidUrlDataAccess>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

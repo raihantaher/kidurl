@@ -32,22 +32,14 @@ namespace KidUrl.Manager
                 var shortCode = "";
 
                 if (url.Substring(0, 10) == "kidurl.my/")
-                {
                     shortCode = url.Substring(10);
-                }
                 else if (url.Substring(0, 17) == "http://kidurl.my/")
-                {
                     shortCode = url.Substring(17);
-                }
                 else if (url.Substring(0, 18) == "https://kidurl.my/")
-                {
                     shortCode = url.Substring(18);
-                }
 
                 if (IsShortUrlValid(shortCode))
-                {
                     return _kidUrlDataAccess.GetLongUrl(shortCode);
-                }
             }
 
             return "Invalid URL provided!";
@@ -57,17 +49,19 @@ namespace KidUrl.Manager
         {
             if (url.Contains("kidurl.my/"))
             {
-                if(url.Substring(0,10) == "kidurl.my/" || url.Substring(0, 17) == "http://kidurl.my/" || url.Substring(0, 18) == "https://kidurl.my/")
-                {
-                    return false; // Need to improve it
-                }
+                if (DoesUrlContainsKidUrl(url))
+                    return false;
             }
             return true;
         }
 
+        private static bool DoesUrlContainsKidUrl(string url)
+        {
+            return url.Substring(0, 10) == "kidurl.my/" || url.Substring(0, 17) == "http://kidurl.my/" || url.Substring(0, 18) == "https://kidurl.my/";
+        }
+
         private bool IsUrlValid(string url)
         {
-            //return Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute);
             var pattern = @"^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$";
             Regex reg = new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
             var result = reg.IsMatch(url);

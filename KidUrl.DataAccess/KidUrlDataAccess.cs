@@ -1,20 +1,20 @@
 ﻿using KidUrl.DataAccess.Interface;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace KidUrl.DataAccess
 {
-    public class KidUrlDataAcess : IKidUrlDataAccess
+    public class KidUrlDataAccess : IKidUrlDataAccess
     {
-        private string con = @"Data Source=.\SQLEXPRESS; Database=KidUrl; Integrated Security = True;";
+        private readonly IConfiguration _configuration;
         private SqlConnection conn;
 
-        public KidUrlDataAcess()
+        public KidUrlDataAccess(IConfiguration configuration)
         {
-            conn = new SqlConnection(con);
+            _configuration = configuration;
+            conn = new SqlConnection(_configuration.GetConnectionString("MyConn"));
         }
 
         public string GetLongUrl(string shortUrl)
@@ -23,8 +23,8 @@ namespace KidUrl.DataAccess
             try
             {
                 conn.Open();
-                var st = $"Select LongUrl from Url WHERE ShortCode='{shortUrl}'";
-                var cmd = new SqlCommand(st, conn);
+                var sql = $"Select LongUrl from Url WHERE ShortCode='{shortUrl}'";
+                var cmd = new SqlCommand(sql, conn);
                 result = (string)cmd.ExecuteScalar();
             }
             catch(Exception ex)
@@ -45,8 +45,8 @@ namespace KidUrl.DataAccess
             try
             {
                 conn.Open();
-                var st = $"Select ShortCode from Url WHERE LongUrl='{longUrl}'";
-                var cmd = new SqlCommand(st, conn);
+                var sql = $"Select ShortCode from Url WHERE LongUrl='{longUrl}'";
+                var cmd = new SqlCommand(sql, conn);
                 result = (string)cmd.ExecuteScalar();
             }
             catch (Exception ex)
@@ -57,6 +57,7 @@ namespace KidUrl.DataAccess
             {
                 conn.Close();
             }
+
             if (result == null)
             {
                 var shortGuid = Guid.NewGuid();
