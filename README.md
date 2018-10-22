@@ -13,3 +13,14 @@ If you provide 'www.google.com' to the service, the service will process and ret
 - https://www.raihantaher.com
 - www.raihantaher.com
 - raihantaher.com
+
+## KidURL format:
+The following kid URLs are supported
+- http://kidurl.my/
+- https://kidurl.my/
+- kidurl.my/
+
+The following kid URLs format is not supported:
+- http://www.kidurl.my/
+- https://www.kidurl.my/
+- www.kidurl.my/
